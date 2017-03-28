@@ -1,0 +1,75 @@
+./dict_runner-o9y8 <input> <timePer> <baseOutputDir> [-mys01|-mys02|-mys03|-mys04|-mys05|-mys06|-mys07]*
+
+
+This program was originally able to execute operations on dictionary
+data structures given their name. But the flags were swapped out with
+mystery names in the format mysXX (XX is a number: 01, 02, ...), which
+uniquely correspond to one dictionary implementation, each. 
+Your job is to determine which implementation (listed on the assignment
+page) corresponds to each of the mysXX.
+
+See below for help on running this command and the underlying
+implementations.
+
+
+<input>   Either '-' to read from standard input or a filename containing commands.
+<timePer> Rough limit on CPU seconds for each implementation's run
+<baseDir> Base directory to dump output (one file per flag w/flag as filename).
+  -mys01	Uses the 1st mystery dictionary/set implementation.
+  -mys02	Uses the 2nd mystery dictionary/set implementation.
+  -mys03	Uses the 3rd mystery dictionary/set implementation.
+  -mys04	Uses the 4th mystery dictionary/set implementation.
+  -mys05	Uses the 5th mystery dictionary/set implementation.
+  -mys06	Uses the 6th mystery dictionary/set implementation.
+  -mys07	Uses the 7th mystery dictionary/set implementation.
+
+So, for example, you could run implementations mys0X and mys0Y from standard
+input for up to 10 CPU seconds each, dumping the results to the data
+directory using: (where mys0X and mys0Y are a dictionary listed above)
+
+  ./dict_runner-o9y8 - 10 data -mys0X -mys0Y
+
+
+The program accepts input where each line must follow one of the
+following three forms:
+
+I <key>
+F <key>
+R <key>
+
+Therefore, every line should start with one of the three letters I, F,
+or R, then have a space, then have a single number greater than zero,
+and nothing else.
+
+Keys are *POSITIVE* integers. (Stored as 64 bit integers.)
+
+'I' means insert.  The behaviour when inserting a key already present
+in the dictionary is undefined.
+
+'F' means find.  (This performs a find operation but does not output
+any result.  The time taken by a find can be very useful for
+distinguishing dictionary implementations, however!)
+
+'R' means remove/delete.  Removing a key not present in the dictionary
+will have no effect.
+
+Sends its output to file(s) named after the flag of the dictionary or
+dictionaries you choose to run.  (You may run multiple at one time to
+avoid rereading the input, which can take a long time for, say,
+millions of operations.)  
+
+In the output, each line represents a timestamp.  A line will contain
+two numbers.  The first is the number of operations alreasy executed.
+(So, when that number is 0, the dictionary has not yet started.
+When that number is 10,000, the dictionary just performed the 10,000th
+operation and is about to perform the 10,001st operation.)
+
+The second number is the amount of time (in ticks of the CPU
+clock) since the dictionary started running (NOT just since the last
+timestamp!).
+
+We guarantee that you'll get AT LEAST one timestamp before the first
+operation and one timestamp just after the final operation.
+Otherwise, you'll get about one every 500 steps, but we only report a
+new timestamp when the time has measurably changed (i.e., the clock
+has ticked).
